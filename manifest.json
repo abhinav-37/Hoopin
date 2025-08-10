@@ -1,0 +1,21 @@
+{
+  "name": "Hoopin - Ride Sharing Reimagined",
+  "short_name": "Hoopin",
+  "description": "Join the future of ride sharing with Hoopin. Sign up to be the first to know when we launch in your area.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["transportation", "travel"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
