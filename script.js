@@ -1,6 +1,6 @@
 // Google Sheets Integration Configuration
 // Replace this URL with your Google Apps Script Web App URL
-const GOOGLE_SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBQysHTorLVxVm94tGFpeDMDYXSEHmMcvsvTQkPdiy6kaU_sw28rcXmsCby_-FxHQ9Uw/exec';
 
 // DOM Elements
 const form = document.getElementById('waitlist-form');
@@ -311,7 +311,7 @@ async function submitToGoogleSheetsAlternative(data) {
     try {
         // This is a fallback method using a Google Form
         // Replace with your Google Form URL and field IDs
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
+        const GOOGLE_FORM_URL = 'https://script.google.com/macros/s/AKfycbwBQysHTorLVxVm94tGFpeDMDYXSEHmMcvsvTQkPdiy6kaU_sw28rcXmsCby_-FxHQ9Uw/exec';
         
         const formData = new FormData();
         formData.append('entry.NAME_FIELD_ID', data.name);
@@ -319,7 +319,7 @@ async function submitToGoogleSheetsAlternative(data) {
         formData.append('entry.SOCIETY_FIELD_ID', data.society);
         formData.append('entry.CITY_FIELD_ID', data.city);
         formData.append('entry.WORKPLACE_FIELD_ID', data.workplace);
-        formData.append('entry.TIMESTAMP_FIELD_ID', data.timestamp);
+        formData.append('entry.TIMESTAMP_FIELD_ID', data.timestamp);    
         
         await fetch(GOOGLE_FORM_URL, {
             method: 'POST',
