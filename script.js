@@ -282,6 +282,9 @@ form.addEventListener('submit', async function(e) {
 // Google Sheets submission function
 async function submitToGoogleSheets(data) {
     try {
+        console.log('Submitting to:', GOOGLE_SHEETS_URL);
+        console.log('Data:', data);
+
         const response = await fetch(GOOGLE_SHEETS_URL, {
             method: 'POST',
             mode: 'cors',
@@ -290,46 +293,45 @@ async function submitToGoogleSheets(data) {
             },
             body: JSON.stringify(data)
         });
-        
+
+        console.log('Response status:', response.status);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const result = await response.json();
+        console.log('Response result:', result);
         return result;
-        
+
     } catch (error) {
         console.error('Google Sheets submission error:', error);
-        
+
         // Fallback: Try alternative submission method
         return await submitToGoogleSheetsAlternative(data);
     }
 }
 
-// Alternative submission method using Google Forms (fallback)
+// Alternative submission method (fallback)
 async function submitToGoogleSheetsAlternative(data) {
     try {
-        // This is a fallback method using a Google Form
-        // Replace with your Google Form URL and field IDs
-        const GOOGLE_FORM_URL = 'https://script.google.com/macros/s/AKfycbwBQysHTorLVxVm94tGFpeDMDYXSEHmMcvsvTQkPdiy6kaU_sw28rcXmsCby_-FxHQ9Uw/exec';
-        
-        const formData = new FormData();
-        formData.append('entry.NAME_FIELD_ID', data.name);
-        formData.append('entry.EMAIL_FIELD_ID', data.email);
-        formData.append('entry.SOCIETY_FIELD_ID', data.society);
-        formData.append('entry.CITY_FIELD_ID', data.city);
-        formData.append('entry.WORKPLACE_FIELD_ID', data.workplace);
-        formData.append('entry.TIMESTAMP_FIELD_ID', data.timestamp);    
-        
-        await fetch(GOOGLE_FORM_URL, {
+        // Use the same Google Apps Script URL as fallback
+        const response = await fetch(GOOGLE_SHEETS_URL, {
             method: 'POST',
-            mode: 'no-cors',
-            body: formData
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         });
-        
-        // Since no-cors doesn't return response, assume success
-        return { success: true };
-        
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result;
+
     } catch (error) {
         console.error('Alternative submission error:', error);
         return { success: false, error: error.message };
