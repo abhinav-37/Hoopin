@@ -1,6 +1,6 @@
 // Google Sheets Integration Configuration
 // Replace this URL with your Google Apps Script Web App URL
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBQysHTorLVxVm94tGFpeDMDYXSEHmMcvsvTQkPdiy6kaU_sw28rcXmsCby_-FxHQ9Uw/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws6i49qUEdYV_KGi_X1z1ei2YOGY6u52YGU8Uk31AN5kcXzkwGNQ2Ni0fhv6sTIEIAgQ/exec';
 
 // DOM Elements
 const form = document.getElementById('waitlist-form');

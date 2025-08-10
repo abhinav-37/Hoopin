@@ -2,7 +2,7 @@ function doPost(e) {
   try {
     // Get the active spreadsheet
     const sheet = SpreadsheetApp.getActiveSheet();
-    
+
     // Parse the JSON data from the form submission
     const data = JSON.parse(e.postData.contents);
     
@@ -10,21 +10,31 @@ function doPost(e) {
     if (!data.name || !data.email || !data.society || !data.city || !data.workplace) {
       return ContentService
         .createTextOutput(JSON.stringify({
-          success: false, 
+          success: false,
           error: 'Missing required fields'
         }))
-        .setMimeType(ContentService.MimeType.JSON);
+        .setMimeType(ContentService.MimeType.JSON)
+        .setHeaders({
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        });
     }
-    
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
       return ContentService
         .createTextOutput(JSON.stringify({
-          success: false, 
+          success: false,
           error: 'Invalid email format'
         }))
-        .setMimeType(ContentService.MimeType.JSON);
+        .setMimeType(ContentService.MimeType.JSON)
+        .setHeaders({
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        });
     }
     
     // Add data to the sheet
@@ -39,22 +49,32 @@ function doPost(e) {
       data.referrer || 'Direct'
     ]);
     
-    // Return success response
+    // Return success response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({
         success: true,
         message: 'Successfully joined the Hoopin community!'
       }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
       
   } catch (error) {
-    // Return error response
+    // Return error response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({
-        success: false, 
+        success: false,
         error: 'Server error: ' + error.toString()
       }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
   }
 }
 
@@ -64,7 +84,23 @@ function doGet(e) {
       message: "Hoopin Waitlist API is running",
       timestamp: new Date().toISOString()
     }))
-    .setMimeType(ContentService.MimeType.JSON);
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    });
+}
+
+function doOptions(e) {
+  return ContentService
+    .createTextOutput('')
+    .setHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400'
+    });
 }
 
 function setupSpreadsheet() {
