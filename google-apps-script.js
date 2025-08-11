@@ -3,8 +3,23 @@ function doPost(e) {
     // Get the active spreadsheet
     const sheet = SpreadsheetApp.getActiveSheet();
 
-    // Parse the JSON data from the form submission
-    const data = JSON.parse(e.postData.contents);
+    // Handle both JSON and form data
+    let data;
+    if (e.postData.type === 'application/json') {
+      data = JSON.parse(e.postData.contents);
+    } else {
+      // Handle form data
+      data = {
+        name: e.parameter.name,
+        email: e.parameter.email,
+        society: e.parameter.society,
+        city: e.parameter.city,
+        workplace: e.parameter.workplace,
+        timestamp: e.parameter.timestamp,
+        userAgent: e.parameter.userAgent,
+        referrer: e.parameter.referrer
+      };
+    }
     
     // Validate required fields
     if (!data.name || !data.email || !data.society || !data.city || !data.workplace) {
@@ -93,12 +108,16 @@ function doGet(e) {
 }
 
 function doOptions(e) {
+  return handleCORS();
+}
+
+function handleCORS() {
   return ContentService
     .createTextOutput('')
     .setHeaders({
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '86400'
     });
 }

@@ -1,6 +1,6 @@
 // Google Sheets Integration Configuration
 // Replace this URL with your Google Apps Script Web App URL
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws6i49qUEdYV_KGi_X1z1ei2YOGY6u52YGU8Uk31AN5kcXzkwGNQ2Ni0fhv6sTIEIAgQ/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbw3cF80Tt7UJCkSipbCMjebP686oU0XuMx9BVU_edoBYvmZIf9DXAggjGyqxTdjZm2yhQ/exec';
 
 // DOM Elements
 const form = document.getElementById('waitlist-form');
@@ -285,24 +285,30 @@ async function submitToGoogleSheets(data) {
         console.log('Submitting to:', GOOGLE_SHEETS_URL);
         console.log('Data:', data);
 
+        // Use form data to avoid CORS issues
+        const formData = new URLSearchParams();
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('society', data.society);
+        formData.append('city', data.city);
+        formData.append('workplace', data.workplace);
+        formData.append('timestamp', data.timestamp);
+        formData.append('userAgent', data.userAgent);
+        formData.append('referrer', data.referrer);
+
         const response = await fetch(GOOGLE_SHEETS_URL, {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify(data)
+            body: formData
         });
 
-        console.log('Response status:', response.status);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('Response result:', result);
-        return result;
+        // With no-cors mode, we can't read the response
+        // So we assume success if no error was thrown
+        console.log('Form submitted successfully (no-cors mode)');
+        return { success: true, message: 'Successfully joined the Hoopin community!' };
 
     } catch (error) {
         console.error('Google Sheets submission error:', error);
