@@ -82,13 +82,10 @@ body {
     height: 70px;
 }
 
-.nav-logo h1 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.nav-logo img {
+    height: 50px;
+    width: auto;
+    display: block;
 }
 
 .nav-links {
@@ -744,4 +741,24 @@ body {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
+}
+/* Logo styling */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-img {
+    height: 48px; /* adjust if needed */
+    width: auto;
+    display: block;
+}
+
+.brand-text {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
