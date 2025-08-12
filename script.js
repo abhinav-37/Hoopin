@@ -12,8 +12,134 @@ const societyInput = document.getElementById('society');
 const cityInput = document.getElementById('city');
 const workplaceInput = document.getElementById('workplace');
 
+// Theme Management
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+
+    // If no saved preference, use system preference
+    if (!savedTheme) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const systemTheme = prefersDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', systemTheme);
+        updateThemeIcon(systemTheme);
+        return;
+    }
+
+    // Handle saved preferences
+    if (savedTheme === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = prefersDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        updateThemeIcon(theme);
+    } else {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const savedTheme = localStorage.getItem('theme');
+
+    let newTheme, newSavedTheme;
+
+    // Cycle through: light → dark → auto → light
+    if (!savedTheme || savedTheme === 'light') {
+        newTheme = 'dark';
+        newSavedTheme = 'dark';
+    } else if (savedTheme === 'dark') {
+        // Switch to auto (follow system)
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        newTheme = prefersDark ? 'dark' : 'light';
+        newSavedTheme = 'auto';
+    } else { // savedTheme === 'auto'
+        newTheme = 'light';
+        newSavedTheme = 'light';
+    }
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newSavedTheme);
+    updateThemeIcon(newTheme, newSavedTheme);
+    updateNavbarBackground();
+}
+
+// Listen for system theme changes
+function setupSystemThemeListener() {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    mediaQuery.addEventListener('change', (e) => {
+        const savedTheme = localStorage.getItem('theme');
+
+        // Only auto-update if user hasn't set a manual preference or has set 'auto'
+        if (!savedTheme || savedTheme === 'auto') {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            updateThemeIcon(newTheme, savedTheme);
+            updateNavbarBackground();
+        }
+    });
+}
+
+function updateThemeIcon(theme, savedTheme = null) {
+    const themeIcon = document.querySelector('.theme-icon');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (themeIcon && themeToggle) {
+        const actualSavedTheme = savedTheme || localStorage.getItem('theme');
+
+        if (actualSavedTheme === 'auto') {
+            themeIcon.textContent = '🔄';
+            themeToggle.setAttribute('title', 'Theme: Auto (following system)');
+        } else if (theme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeToggle.setAttribute('title', 'Theme: Dark (click for light)');
+        } else {
+            themeIcon.textContent = '🌙';
+            themeToggle.setAttribute('title', 'Theme: Light (click for dark)');
+        }
+    }
+
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#121212' : '#1E88E5');
+    }
+}
+
+function updateNavbarBackground() {
+    const navbar = document.querySelector('.navbar');
+    const theme = document.documentElement.getAttribute('data-theme');
+
+    if (window.scrollY > 50) {
+        if (theme === 'dark') {
+            navbar.style.background = 'rgba(18, 18, 18, 0.98)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        }
+        navbar.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1)';
+    } else {
+        if (theme === 'dark') {
+            navbar.style.background = 'rgba(18, 18, 18, 0.95)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
+        navbar.style.boxShadow = 'none';
+    }
+}
+
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+
+    // Setup system theme change listener
+    setupSystemThemeListener();
+
+    // Theme toggle event listener
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -31,13 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
+        updateNavbarBackground();
     });
 
     // Intersection Observer for animations

@@ -6,21 +6,40 @@
 }
 
 :root {
-    --primary-color: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary-color: #ec4899;
-    --accent-color: #06b6d4;
+    --primary-color: #1E88E5;
+    --primary-dark: #1976D2;
+    --secondary-color: #FF7043;
+    --accent-color: #43A047;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #9ca3af;
     --background: #ffffff;
     --background-secondary: #f9fafb;
     --border-color: #e5e7eb;
-    --success-color: #10b981;
+    --success-color: #43A047;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --primary-color: #64B5F6;
+    --primary-dark: #42A5F5;
+    --secondary-color: #FF8A65;
+    --accent-color: #81C784;
+    --text-primary: #FFFFFF;
+    --text-secondary: #E0E0E0;
+    --text-light: #E0E0E0;
+    --background: #121212;
+    --background-secondary: #1E1E1E;
+    --border-color: #333333;
+    --success-color: #81C784;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.6);
 }
 
 body {
@@ -47,6 +66,10 @@ body {
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
     transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(18, 18, 18, 0.95);
 }
 
 .nav-container {
@@ -100,12 +123,99 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-left: 1rem;
+}
+
+.theme-toggle:hover {
+    background: var(--background-secondary);
+    transform: scale(1.1);
+}
+
+[data-theme="dark"] .theme-toggle {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: var(--background-secondary);
+}
+
+/* Dark Mode Form Styles */
+[data-theme="dark"] .signup-form {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
+    background: var(--background);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+}
+
+[data-theme="dark"] .form-group label {
+    color: var(--text-secondary);
+    background: var(--background);
+}
+
+/* Dark mode form note */
+[data-theme="dark"] .form-note {
+    color: var(--text-light);
+}
+
+/* Ensure form inputs have proper styling in light mode too */
+.form-group input,
+.form-group select {
+    color: var(--text-primary);
+    background: var(--background);
+}
+
+.form-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Dark Mode Floating Cards */
+[data-theme="dark"] .floating-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
 /* Hero Section */
 .hero {
     padding: 120px 0 80px;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     position: relative;
     overflow: hidden;
+}
+
+[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
 .hero::before {
@@ -277,7 +387,7 @@ body {
 }
 
 .feature-card {
-    background: white;
+    background: var(--background);
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: var(--shadow-md);
@@ -404,7 +514,7 @@ body {
     color: var(--text-light);
     transition: all 0.3s ease;
     pointer-events: none;
-    background: white;
+    background: var(--background);
     padding: 0 0.25rem;
 }
 
@@ -475,11 +585,49 @@ body {
     color: var(--success-color);
 }
 
+.success-message p {
+    color: var(--text-secondary);
+}
+
+/* Dark mode success message */
+[data-theme="dark"] .success-message {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .success-message h3 {
+    color: var(--success-color);
+}
+
+[data-theme="dark"] .success-message p {
+    color: var(--text-secondary);
+}
+
+/* Error message styling for dark mode */
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+[data-theme="dark"] .error-message {
+    color: #fca5a5;
+}
+
+/* Form input error state for dark mode */
+[data-theme="dark"] .form-group input.error {
+    border-color: #fca5a5;
+}
+
 /* Footer */
 .footer {
-    background: var(--text-primary);
+    background: #1f2937;
     color: white;
     padding: 3rem 0 1rem;
+}
+
+[data-theme="dark"] .footer {
+    background: #0f0f0f;
+    color: var(--text-primary);
 }
 
 .footer-content {
@@ -527,9 +675,16 @@ body {
     .nav-links {
         gap: 1rem;
     }
-    
+
     .nav-links a:not(.cta-button) {
         display: none;
+    }
+
+    .theme-toggle {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+        margin-left: 0.5rem;
     }
     
     .hero-container {

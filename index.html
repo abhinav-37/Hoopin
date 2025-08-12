@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#6366f1">
+    <meta name="theme-color" content="#1E88E5">
 </head>
 <body>
     <!-- Navigation -->
@@ -43,6 +43,9 @@
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#signup" class="cta-button">Join Waitlist</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -152,26 +155,26 @@
                     <form id="waitlist-form" class="form">
                         <div class="form-row">
                             <div class="form-group">
-                                <input type="text" id="name" name="name" placeholder="Your full name" required>
+                                <input type="text" id="name" name="name" placeholder=" " required>
                                 <label for="name">Full Name</label>
                             </div>
                             <div class="form-group">
-                                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                                <input type="email" id="email" name="email" placeholder=" " required>
                                 <label for="email">Email Address</label>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <input type="text" id="society" name="society" placeholder="Your society/apartment name" required>
+                                <input type="text" id="society" name="society" placeholder=" " required>
                                 <label for="society">Society/Apartment Name</label>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="city" name="city" placeholder="Your city" required>
+                                <input type="text" id="city" name="city" placeholder=" " required>
                                 <label for="city">City</label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="workplace" name="workplace" placeholder="Where do you work?" required>
+                            <input type="text" id="workplace" name="workplace" placeholder=" " required>
                             <label for="workplace">Workplace</label>
                         </div>
                         <button type="submit" class="submit-button">
