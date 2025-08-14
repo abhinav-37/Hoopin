@@ -722,6 +722,20 @@ body {
         padding: 0 1rem;
     }
 
+    /* Hide CTA button on very small screens for cleaner look */
+    .cta-button {
+        display: none;
+    }
+
+    /* Adjust nav container spacing for very small screens */
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .nav-links {
+        gap: 0.5rem;
+    }
+
     .hero {
         padding: 100px 0 60px;
     }
